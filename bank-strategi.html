@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank Strategi — SIPANDU PRIMA</title>
+<meta name="description" content="Pustaka strategi tindak lanjut yang dapat dipilih unit dan dipakai ulang antar satwil.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="scroller"><div class="desk">
+<div id="app-topbar"></div>
+
+<div class="pagehead">
+  <div>
+    <h1>Bank Strategi</h1>
+    <div class="sub">Pustaka strategi tindak lanjut yang dapat dipilih unit saat menetapkan perbaikan. Tingkat keberhasilan dihitung dari hasil evaluasi seluruh satwil.</div>
+  </div>
+  <span class="grow"></span>
+  <button type="button" class="btn">Semua unsur ▾</button>
+  <button type="button" class="btn">Ekspor XLSX</button>
+</div>
+
+<main class="page">
+<div class="row">
+
+  <div class="card grow" style="min-width:0">
+    <div class="card-head">
+      <div><div class="card-title" id="bs-count"></div><div class="card-sub" id="bs-sub"></div></div>
+      <span class="grow"></span>
+      <input type="search" class="fld" id="cari" placeholder="Cari strategi…" aria-label="Cari strategi" style="width:210px;height:36px">
+    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr>
+        <th style="width:80px">KODE</th><th style="width:150px">UNSUR SASARAN</th>
+        <th style="min-width:280px">STRATEGI</th><th class="r">DIPAKAI</th>
+        <th style="width:130px">TINGKAT EFEKTIF</th><th style="width:90px">STATUS</th><th class="r">AKSI</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="width:352px;flex-shrink:0;align-self:flex-start">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid var(--border)">
+      <div class="card-title">Tambah strategi baru</div>
+      <div class="card-sub">Hanya Operator Polda dan Administrator yang dapat mengelola pustaka ini</div>
+    </div>
+    <div style="padding:17px 18px;display:flex;flex-direction:column;gap:13px">
+      <div><label class="lbl" for="b-survei">Jenis survei</label>
+        <select class="fld" id="b-survei">
+          <option>SKM — Survei Kepuasan Masyarakat</option>
+          <option>SPAK — Survei Persepsi Anti Korupsi</option>
+        </select></div>
+      <div><label class="lbl" for="b-unsur">Unsur sasaran</label>
+        <select class="fld" id="b-unsur"></select></div>
+      <div><label class="lbl" for="b-judul">Judul strategi</label>
+        <input class="fld" id="b-judul" type="text" placeholder="Contoh: Tambah loket pada jam puncak"></div>
+      <div><label class="lbl" for="b-desk">Deskripsi pelaksanaan</label>
+        <textarea class="fld" id="b-desk" rows="3" placeholder="Langkah konkret yang harus dilakukan unit"></textarea></div>
+      <div><label class="lbl" for="b-level">Tingkat penetapan minimum</label>
+        <select class="fld" id="b-level"><option>Kepala unit layanan</option><option>Kepala satuan fungsi</option><option>Kapolres</option></select></div>
+      <div><label class="lbl" for="b-periode">Periode evaluasi</label>
+        <select class="fld" id="b-periode"><option>1 bulan setelah ditetapkan</option><option>1 triwulan setelah ditetapkan</option></select></div>
+    </div>
+    <div style="padding:14px 18px;background:#FBF7EF;border-top:1px solid var(--border);display:flex;gap:10px;border-radius:0 0 12px 12px">
+      <button type="button" class="btn grow" style="justify-content:center">Batal</button>
+      <button type="button" class="btn p grow" style="justify-content:center">Simpan Strategi</button>
+    </div>
+  </div>
+
+</div>
+</main>
+</div></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+SP.mount(SP.topbar({ nav:'bank-strategi.html', who:'[NAMA PETUGAS]', role:'Bamin Rorena · Operator Polda', ini:'RN' }));
+
+SP.el('b-unsur').innerHTML = DATA.UNSUR_SKM.map(function(u){
+  return '<option>'+u.kode+' · '+u.nama+'</option>';
+}).join('');
+
+function draw(filter){
+  var f = (filter||'').toLowerCase();
+  var rows = DATA.BANK.filter(function(x){
+    return !f || (x[0]+' '+x[1]+' '+x[3]+' '+x[4]).toLowerCase().indexOf(f) > -1;
+  });
+  SP.el('rows').innerHTML = rows.map(function(x){
+    var bar = x[6] >= 75 ? 'var(--a)' : x[6] >= 60 ? 'var(--c)' : 'var(--d)';
+    return '<tr>'+
+      '<td style="font-weight:700;color:var(--navy-700);font-size:11.5px">'+x[0]+'</td>'+
+      '<td><span class="tag'+(x[2]==='spak'?' spak':'')+'">'+x[1]+'</span></td>'+
+      '<td><div style="font-weight:600">'+x[3]+'</div><div class="t2" style="line-height:1.4">'+x[4]+'</div></td>'+
+      '<td class="r num" style="color:var(--slate-500);font-weight:600">'+x[5]+'×</td>'+
+      '<td><div style="display:flex;align-items:center;gap:7px">'+
+        '<div class="meter grow"><i style="width:'+x[6]+'%;background:'+bar+'"></i></div>'+
+        '<b class="num" style="font-size:11.5px">'+x[6]+'%</b></div></td>'+
+      '<td><span class="pill '+(x[7]==='Aktif'?'p-act':'p-off')+'"><i></i>'+x[7]+'</span></td>'+
+      '<td class="r"><button type="button" class="btn-xs">Ubah</button></td>'+
+      '</tr>';
+  }).join('');
+  var aktif = rows.filter(function(x){ return x[7]==='Aktif'; }).length;
+  SP.el('bs-count').textContent = rows.length + ' strategi terdaftar';
+  SP.el('bs-sub').textContent = aktif + ' aktif · ' + (rows.length-aktif) + ' diarsipkan';
+}
+draw();
+SP.el('cari').addEventListener('input', function(){ draw(this.value); });
+</script>
+</body>
+</html>

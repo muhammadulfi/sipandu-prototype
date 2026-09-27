@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antrean Validasi — SIPANDU PRIMA</title>
+<meta name="description" content="Antrean validasi kepala unit: memeriksa matriks SKM dan SPAK sebelum data masuk dashboard.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="scroller"><div class="desk">
+<div id="app-topbar"></div>
+<main class="page">
+  <div class="row">
+    <div class="card" style="width:372px;flex-shrink:0;align-self:flex-start">
+      <div style="padding:16px 18px 13px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div class="card-title">Antrean validasi</div>
+          <span style="font-size:11.5px;font-weight:800;color:#fff;background:var(--navy-700);min-width:22px;height:22px;padding:0 7px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center">3</span>
+        </div>
+        <div class="card-sub">Entri menunggu persetujuan Anda sebagai kepala unit</div>
+      </div>
+      <div style="padding:12px;display:flex;flex-direction:column;gap:10px" id="antrean"></div>
+    </div>
+
+    <div class="card grow" style="min-width:0;display:flex;flex-direction:column">
+      <div style="padding:16px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+        <div>
+          <div class="eyebrow">Pemeriksaan entri · Pekan 39 tahun 2026</div>
+          <div style="font-size:18px;font-weight:800;margin-top:4px">Rekap 21 – 27 September 2026</div>
+          <div class="card-sub">38 responden · diisi [NAMA PETUGAS] (Banit Regident) · lampiran rekap-p39-satpas.pdf</div>
+        </div>
+        <span class="grow"></span>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--muted);font-weight:600">IKM jika disetujui</div>
+          <div style="display:flex;align-items:baseline;gap:7px;justify-content:flex-end;margin-top:3px">
+            <div style="font-size:26px;font-weight:700;line-height:1" id="v-ikm">–</div><span id="v-ikm-c"></span>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--muted);font-weight:600">IPAK jika disetujui</div>
+          <div style="display:flex;align-items:baseline;gap:7px;justify-content:flex-end;margin-top:3px">
+            <div style="font-size:26px;font-weight:700;line-height:1" id="v-ipak">–</div><span id="v-ipak-c"></span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:16px 20px" id="detail"></div>
+
+      <div style="padding:14px 20px;background:#FBF7EF;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-radius:0 0 12px 12px">
+        <label for="alasan" class="lbl" style="margin:0;flex-shrink:0">Alasan penolakan</label>
+        <input id="alasan" class="fld grow" type="text" placeholder="Wajib diisi bila entri ditolak" style="min-width:200px;width:auto">
+        <button type="button" class="btn no">Tolak</button>
+        <button type="button" class="btn ok">Setujui Kedua Survei</button>
+      </div>
+    </div>
+  </div>
+</main>
+</div></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+SP.mount(SP.topbar({ sub:'Pelayanan SIM (Satpas) · Polres Kotim', who:'[NAMA PEJABAT]', role:'Kanit Regident · Kepala Unit Layanan', ini:'KR' }));
+
+/* --- ringkasan entri --- */
+var nrrSkm = DATA.ENTRI_SKM.map(function(r){ return SP.nrrSkm(r[2]); });
+var nrrSpak = DATA.ENTRI_SPAK.map(function(r){ return SP.nrrSpak([r[1],r[2],r[3]]); });
+var IKM = SP.indeks(nrrSkm), IPAK = SP.indeks(nrrSpak);
+SP.el('v-ikm').textContent = SP.id1(IKM);   SP.el('v-ikm-c').innerHTML = SP.chip(IKM);
+SP.el('v-ipak').textContent = SP.id1(IPAK); SP.el('v-ipak-c').innerHTML = SP.chip(IPAK);
+
+/* --- antrean --- */
+var q = [
+  ['Pekan 39 · 2026','21 – 27 September 2026',38,IKM,IPAK,'Dikirim [NAMA PETUGAS] · 27 Sep 2026, 16.42 WIB',true,''],
+  ['Pekan 38 · 2026','14 – 20 September 2026',34,75.4,80.1,'',false,'Revisi setelah penolakan pertama'],
+  ['Pekan 37 · 2026','7 – 13 September 2026',41,74.8,79.3,'Dikirim [NAMA PETUGAS] · 15 Sep 2026, 09.10 WIB',false,'']
+];
+SP.el('antrean').innerHTML = q.map(function(x){
+  return '<div style="padding:14px;border-radius:10px;'+(x[6]
+    ? 'background:#F5F8FC;border:2px solid var(--navy-700)'
+    : 'background:#fff;border:1px solid var(--border)')+'">'+
+    '<div style="display:flex;align-items:center;gap:8px"><div style="font-size:13.5px;font-weight:700" class="grow">'+x[0]+'</div>'+
+    (x[6]?'<span class="badge-demo">DIBUKA</span>':'')+'</div>'+
+    '<div style="font-size:12px;color:var(--slate-500);margin-top:5px">'+x[1]+'</div>'+
+    '<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:12px">'+
+      '<span style="color:var(--muted)">'+x[2]+' responden</span>'+
+      '<b>IKM '+SP.id1(x[3])+'</b><b style="color:var(--slate-500)">IPAK '+SP.id1(x[4])+'</b></div>'+
+    (x[5]?'<div style="font-size:11.5px;color:var(--muted-2);margin-top:8px">'+x[5]+'</div>':'')+
+    (x[7]?'<div style="display:flex;align-items:center;gap:7px;margin-top:9px">'+SP.ICON.warn+
+      '<span style="font-size:11.5px;color:#B45309;font-weight:600">'+x[7]+'</span></div>':'')+
+    '</div>';
+}).join('');
+
+/* --- detail matriks --- */
+function matrixRO(title, cols, rows, colors){
+  var head = '<div style="display:flex;align-items:center;gap:7px;margin-top:10px">'+
+    '<div style="width:186px;flex-shrink:0;font-size:10.5px;font-weight:700;color:var(--muted);letter-spacing:.03em">UNSUR</div>'+
+    '<div style="flex-grow:1;display:grid;grid-template-columns:repeat('+cols.length+',1fr);gap:7px;min-width:0">'+
+    cols.map(function(c,i){ return '<div class="sc" style="height:20px;font-size:11px;background:'+colors[i]+'">'+c+'</div>'; }).join('')+
+    '</div>'+
+    '<div style="width:56px;flex-shrink:0;text-align:center;font-size:10.5px;font-weight:700;color:var(--muted)">TOTAL</div>'+
+    '<div style="width:60px;flex-shrink:0;text-align:right;font-size:10.5px;font-weight:700;color:var(--muted)">NRR</div></div>';
+  var body = rows.map(function(r){
+    var tot = r.freq.reduce(function(a,b){return a+b;},0);
+    return '<div style="display:flex;align-items:center;gap:7px;padding:3px 0;border-bottom:1px solid #FBF7EF">'+
+      '<div style="width:186px;flex-shrink:0;font-size:12px;font-weight:600">'+r.nama+'</div>'+
+      '<div style="flex-grow:1;display:grid;grid-template-columns:repeat('+cols.length+',1fr);gap:7px;min-width:0">'+
+      r.freq.map(function(v,i){
+        var hot = (r.hot && i===r.hot && v>0);
+        return '<div style="display:flex;align-items:center;justify-content:center;height:28px;border-radius:5px;font-size:12.5px;font-weight:'+(hot?'800':'600')+';font-variant-numeric:tabular-nums;'+
+          (hot?'background:var(--d-bg);border:1px solid #FCA5A5;color:var(--d-tx)':'background:#FBF7EF;border:1px solid #F1EDE3;color:var(--slate-500)')+'">'+v+'</div>';
+      }).join('')+'</div>'+
+      '<div style="width:56px;flex-shrink:0;text-align:center;font-size:12.5px;font-weight:700;color:var(--up)">'+tot+'</div>'+
+      '<div style="width:60px;flex-shrink:0;text-align:right;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums">'+SP.id3(r.nrr)+'</div></div>';
+  }).join('');
+  return '<div style="font-size:12.5px;font-weight:800;letter-spacing:.02em">'+title+'</div>'+head+body;
+}
+
+var skmRows = DATA.ENTRI_SKM.map(function(r,i){ return { nama:r[0]+' · '+r[1], freq:r[2], nrr:nrrSkm[i] }; });
+var spakRows = DATA.ENTRI_SPAK.map(function(r,i){ return { nama:r[0]+' · '+DATA.UNSUR_SPAK[i].nama, freq:[r[1],r[2],r[3]], nrr:nrrSpak[i], hot:2 }; });
+var adaTot = DATA.ENTRI_SPAK.reduce(function(a,r){ return a+r[3]; },0);
+
+SP.el('detail').innerHTML =
+  matrixRO('SKM · 9 unsur, skala 1 – 6', ['1','2','3','4','5','6'],
+    skmRows, ['#991B1B','#DC2626','#F97316','#EAB308','#84CC16','#16A34A']) +
+  '<div style="height:18px"></div>' +
+  matrixRO('SPAK · 4 unsur', ['Tidak ada','Ragu','Ada'],
+    spakRows, ['#16A34A','#EAB308','#DC2626']) +
+  '<div class="note bad" style="margin-top:16px">'+SP.ICON.bad+
+  '<div><b>'+adaTot+' jawaban "Ada"</b> pada SPAK melampaui ambang eskalasi. Persetujuan Anda akan memicu notifikasi ke Kasipropam dan Kasiwas Polres Kotim. <b>Catatan operator:</b> loket tutup 2 hari karena gangguan jaringan Satpas.</div></div>';
+</script>
+</body>
+</html>

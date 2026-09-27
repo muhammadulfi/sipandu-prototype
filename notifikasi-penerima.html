@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelola Nomor Penerima — SIPANDU PRIMA</title>
+<meta name="description" content="Aturan notifikasi melekat pada jabatan, nomor melekat pada pejabat, sehingga mutasi tidak memutus alur.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="scroller"><div class="desk">
+<div id="app-topbar"></div>
+
+<div class="pagehead">
+  <div>
+    <h1>Kelola Nomor Penerima Notifikasi</h1>
+    <div class="sub">Aturan notifikasi melekat pada jabatan, nomor melekat pada pejabat. Saat terjadi mutasi, cukup perbarui nomornya tanpa mengubah aturan.</div>
+  </div>
+  <span class="grow"></span>
+  <a class="btn" href="notifikasi.html">← Log notifikasi</a>
+  <button type="button" class="btn">Kirim uji ke semua</button>
+  <button type="button" class="btn">Ekspor XLSX</button>
+</div>
+
+<main class="page">
+<div class="row">
+
+  <div class="col grow" style="min-width:0">
+    <div class="note warn">
+      <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="#EAB308"/><path d="M8 4.7v4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.1" r=".95" fill="#fff"/></svg>
+      <div class="grow"><b>2 jabatan perlu perhatian.</b> Nomor Kasat Reskrim gagal dikirimi pesan tiga kali berturut-turut, dan Kanit Regident belum memverifikasi nomor barunya.</div>
+      <button type="button" class="btn" style="height:32px;font-size:12px;flex-shrink:0">Tinjau</button>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">Daftar jabatan penerima</div>
+        <div class="card-sub">10 jabatan terdaftar pada Polres Kotawaringin Timur</div></div>
+        <span class="grow"></span>
+        <input type="search" class="fld" id="cari" placeholder="Cari jabatan…" aria-label="Cari jabatan" style="width:190px;height:36px">
+      </div>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr>
+          <th style="min-width:190px">JABATAN</th><th style="min-width:170px">PEJABAT SAAT INI</th>
+          <th style="width:160px">NOMOR WHATSAPP</th><th style="width:155px">STATUS</th>
+          <th style="width:120px">BERLAKU SEJAK</th><th class="r">AKSI</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div>
+        <div class="card-title">Riwayat perubahan nomor</div>
+        <div class="card-sub">Jejak ini permanen dan tidak dapat dihapus, termasuk oleh Administrator</div>
+      </div></div>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th style="width:150px">WAKTU</th><th>JABATAN</th><th>NOMOR LAMA</th><th>NOMOR BARU</th><th>ALASAN</th><th>DIUBAH OLEH</th></tr></thead>
+        <tbody id="riwayat"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="card" style="width:372px;flex-shrink:0;align-self:flex-start">
+    <div style="padding:15px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+      <div><div class="card-title">Ubah penerima</div>
+      <div class="card-sub" id="form-jab">Kapolres Kotawaringin Timur</div></div>
+      <span class="grow"></span><span class="badge-demo">DIBUKA</span>
+    </div>
+    <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+      <div><label class="lbl" for="k-jabatan">Jabatan</label>
+        <input class="fld" id="k-jabatan" type="text" value="Kapolres Kotawaringin Timur" readonly></div>
+      <div><label class="lbl" for="k-alasan">Alasan perubahan</label>
+        <select class="fld" id="k-alasan">
+          <option>Mutasi jabatan</option><option>Perbaikan nomor salah</option>
+          <option>Penunjukan Plt / Pjs</option><option>Nomor lama tidak aktif</option>
+        </select></div>
+      <div><label class="lbl" for="k-nama">Nama pejabat baru</label>
+        <input class="fld" id="k-nama" type="text" value="[NAMA PEJABAT]"></div>
+      <div style="display:flex;gap:10px">
+        <div class="grow"><label class="lbl" for="k-pangkat">Pangkat</label><input class="fld" id="k-pangkat" type="text" value="AKBP"></div>
+        <div class="grow"><label class="lbl" for="k-nrp">NRP</label><input class="fld num" id="k-nrp" type="text" value="[NRP]"></div>
+      </div>
+      <div><label class="lbl" for="k-hp">Nomor WhatsApp</label>
+        <input class="fld num" id="k-hp" type="tel" value="+62 811 5200 9001" style="font-size:15px;font-weight:700">
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5">Gunakan format internasional diawali +62. Nomor harus terdaftar pada WhatsApp.</div></div>
+      <div><label class="lbl" for="k-sejak">Berlaku sejak</label>
+        <input class="fld" id="k-sejak" type="text" value="9 September 2026"></div>
+      <div class="note info">
+        <label class="chk" style="padding:0">
+          <input type="checkbox" checked>
+          <span>Kirim pesan uji verifikasi sekarang. Nomor baru aktif menerima notifikasi setelah pejabat membalas pesan uji.</span>
+        </label>
+      </div>
+    </div>
+    <div style="padding:13px 18px;background:#FBF7EF;border-top:1px solid var(--border);display:flex;gap:10px;border-radius:0 0 12px 12px">
+      <button type="button" class="btn grow" style="justify-content:center">Batal</button>
+      <button type="button" class="btn p grow" style="justify-content:center" id="btn-simpan">Simpan Perubahan</button>
+    </div>
+  </div>
+
+</div>
+</main>
+</div></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+SP.mount(SP.topbar({ sub:'Polres Kotawaringin Timur · Sampit', nav:'notifikasi.html', who:'[NAMA PETUGAS]', role:'Bamin Bagren · Operator Polres', ini:'BR' }));
+
+var VMAP = { 'Terverifikasi':'p-act', 'Menunggu verifikasi':'p-esc', 'Gagal kirim 3x':'p-fail', 'Belum diisi':'p-off' };
+var pilih = 0;
+
+function draw(filter){
+  var f = (filter||'').toLowerCase();
+  SP.el('rows').innerHTML = DATA.PENERIMA.map(function(x, i){
+    if (f && x[0].toLowerCase().indexOf(f) === -1) return '';
+    return '<tr class="'+(i===pilih?'sel':'')+'" data-i="'+i+'">'+
+      '<td><div style="font-weight:700">'+x[0]+'</div><div class="t2">'+x[1]+'</div></td>'+
+      '<td><div style="font-weight:600">[NAMA PEJABAT]</div><div class="t2">'+x[2]+'</div></td>'+
+      '<td class="num" style="color:var(--slate-500)">'+x[3]+'</td>'+
+      '<td><span class="pill '+(VMAP[x[4]]||'p-off')+'"><i></i>'+x[4]+'</span></td>'+
+      '<td style="font-size:11.5px;color:var(--muted)">'+x[5]+'</td>'+
+      '<td class="r"><button type="button" class="btn-xs" data-i="'+i+'">Ubah</button></td>'+
+      '</tr>';
+  }).join('');
+
+  SP.el('rows').querySelectorAll('.btn-xs').forEach(function(b){
+    b.addEventListener('click', function(){
+      pilih = +b.dataset.i;
+      var x = DATA.PENERIMA[pilih];
+      SP.el('form-jab').textContent = x[0];
+      SP.el('k-jabatan').value = x[0];
+      SP.el('k-pangkat').value = x[2];
+      SP.el('k-hp').value = x[3].replace(/\*/g, '0');
+      SP.el('k-sejak').value = x[5];
+      draw(SP.el('cari').value);
+      SP.el('k-hp').focus();
+    });
+  });
+}
+draw();
+SP.el('cari').addEventListener('input', function(){ draw(this.value); });
+
+SP.el('riwayat').innerHTML = DATA.RIWAYAT_NOMOR.map(function(r){
+  return '<tr>'+
+    '<td style="font-size:11.5px;color:var(--muted)">'+r[0]+'</td>'+
+    '<td style="font-weight:600">'+r[1]+'</td>'+
+    '<td class="num" style="color:var(--muted-2);text-decoration:line-through">'+r[2]+'</td>'+
+    '<td class="num" style="font-weight:600">'+r[3]+'</td>'+
+    '<td><span class="tag">'+r[4]+'</span></td>'+
+    '<td style="color:var(--slate-500)">'+r[5]+'</td></tr>';
+}).join('');
+
+SP.el('btn-simpan').addEventListener('click', function(){
+  SP.toast('Prototipe: pesan uji verifikasi dikirim. Nomor aktif setelah dibalas.');
+});
+</script>
+</body>
+</html>

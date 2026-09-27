@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input Mobile Operator — SIPANDU PRIMA</title>
+<meta name="description" content="Tampilan input rekap dari ponsel untuk operator unit layanan.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+body { background:#EDE7DB; }
+.frame { width:390px; margin:28px auto; border-radius:26px; overflow:hidden;
+         box-shadow:0 18px 50px rgba(7,26,53,.22); background:#F4F0E6;
+         display:flex; flex-direction:column; min-height:780px; }
+.stp { width:44px; height:44px; flex-shrink:0; border:1px solid #CBD5E1; background:#fff;
+       border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
+.stp:hover { background:#F1F5F9; }
+.scb { width:26px; height:26px; flex-shrink:0; border-radius:7px; display:flex;
+       align-items:center; justify-content:center; font-size:12.5px; font-weight:800; color:#fff; }
+.done { display:flex; align-items:center; gap:10px; padding:13px 14px; background:#fff;
+        border:1px solid var(--border); border-radius:11px; }
+@media (max-width:430px){ .frame{ width:100%; margin:0; border-radius:0; box-shadow:none; } }
+</style>
+</head>
+<body>
+
+<div style="max-width:880px;margin:0 auto;padding:22px 16px 0;text-align:center">
+  <a href="index.html" style="font-size:13px;font-weight:600">← Kembali ke daftar layar</a>
+  <div style="font-size:13px;color:var(--muted);margin-top:8px">Tampilan ponsel 390 × 844. Nilai dapat ditambah dan dikurangi, total serta NRR ikut berubah.</div>
+</div>
+
+<div class="frame">
+
+  <header style="padding:13px 14px;background:var(--navy-900);display:flex;align-items:center;gap:11px">
+    <a href="input-skm.html" aria-label="Kembali" style="width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:10px">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12 4.5 6.5 10l5.5 5.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <img src="assets/img/logo.png" alt="" style="width:30px;height:30px;border-radius:7px;flex-shrink:0">
+    <div style="flex-grow:1;min-width:0">
+      <div style="font-size:13.5px;font-weight:800;color:#fff;letter-spacing:.02em">SIPANDU PRIMA</div>
+      <div style="font-size:10.5px;color:#8FA3BC;margin-top:1px">Pelayanan SIM · Polres Kotim</div>
+    </div>
+    <span class="badge-demo" style="font-size:9.5px;padding:4px 7px">CONTOH</span>
+  </header>
+
+  <div style="padding:13px 16px 12px;background:#fff;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:baseline;gap:8px">
+      <div style="font-size:12.5px;font-weight:700" class="grow" id="m-step">SKM · unsur 4 dari 9</div>
+      <div style="font-size:12px;color:var(--muted)">Pekan 39 · 38 responden</div>
+    </div>
+    <div style="display:flex;gap:4px;margin-top:9px" id="m-prog"></div>
+    <div style="font-size:10.5px;color:var(--muted-2);margin-top:8px">Setelah 9 unsur SKM, lanjut ke 4 unsur SPAK</div>
+  </div>
+
+  <div style="flex-grow:1;padding:14px 16px;display:flex;flex-direction:column;gap:11px">
+
+    <div class="card pad" style="padding:15px">
+      <div style="font-size:10.5px;font-weight:700;color:var(--muted-2);letter-spacing:.04em" id="m-kode">UNSUR U4</div>
+      <div style="font-size:17px;font-weight:800;margin-top:4px" id="m-nama">Jangka waktu pelayanan</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:5px;line-height:1.45">Isi jumlah responden untuk setiap skala penilaian.</div>
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px" id="m-rows"></div>
+      <div style="margin-top:13px;padding:10px 13px;border-radius:9px;display:flex;align-items:center;gap:9px" id="m-sum"></div>
+    </div>
+
+    <div class="done">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#DCFCE7"/><path d="M5 8.2l2.1 2.1 3.9-4.3" stroke="#15803D" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span style="font-size:12.5px;font-weight:600" class="grow">U3 · Alur / prosedur</span>
+      <span class="num" style="font-size:11.5px;color:var(--muted)">38</span>
+    </div>
+    <div class="done" style="border-style:dashed;border-color:#D8D0BF;background:#FBF7EF">
+      <span style="width:18px;height:18px;flex-shrink:0;border-radius:50%;border:1.6px solid #D8D0BF"></span>
+      <span style="font-size:12.5px;font-weight:600;color:var(--muted)" class="grow">U5 · Biaya pelayanan</span>
+      <span style="font-size:11.5px;color:var(--muted-2)">belum diisi</span>
+    </div>
+
+    <span class="grow"></span>
+
+    <div class="note sand" style="font-size:11.5px">
+      <div>Draft tersimpan otomatis di perangkat. Entri baru terkirim setelah Anda menekan tombol kirim.</div>
+    </div>
+  </div>
+
+  <div style="padding:12px 16px 16px;background:#fff;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px">
+    <button type="button" class="btn" style="height:48px;padding:0 18px;flex-shrink:0">Simpan</button>
+    <button type="button" class="btn p grow" style="height:48px;justify-content:center;font-size:14px" id="m-next">Lanjut ke Unsur 5 →</button>
+  </div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+var IDX = 3;                                   // unsur ke-4 (U4)
+var freq = DATA.ENTRI_SKM[IDX][2].slice();
+var TOTAL = 38;
+
+SP.el('m-prog').innerHTML = DATA.ENTRI_SKM.map(function(_, i){
+  var c = i < IDX ? 'var(--a)' : i === IDX ? 'var(--navy-700)' : '#E0DACD';
+  return '<div style="flex-grow:1;height:5px;border-radius:999px;background:'+c+'"></div>';
+}).join('');
+SP.el('m-kode').textContent = 'UNSUR ' + DATA.ENTRI_SKM[IDX][0];
+SP.el('m-nama').textContent = DATA.ENTRI_SKM[IDX][1];
+
+function draw(){
+  SP.el('m-rows').innerHTML = DATA.SKALA.map(function(s, i){
+    return '<div style="display:flex;align-items:center;gap:9px">'+
+      '<span class="scb" style="background:'+s.warna+'">'+s.n+'</span>'+
+      '<div class="grow" style="min-width:0"><div style="font-size:12.5px;font-weight:600">'+s.label+'</div>'+
+      '<div style="font-size:10px;color:var(--muted-2)">bobot '+String(s.bobot).replace('.',',')+'</div></div>'+
+      '<button type="button" class="stp" data-d="-1" data-i="'+i+'" aria-label="Kurangi skala '+s.n+'">'+
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8" stroke="#445D7A" stroke-width="1.8" stroke-linecap="round"/></svg></button>'+
+      '<span class="num" style="width:32px;flex-shrink:0;text-align:center;font-size:16px;font-weight:700">'+freq[i]+'</span>'+
+      '<button type="button" class="stp" data-d="1" data-i="'+i+'" aria-label="Tambah skala '+s.n+'">'+
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 4v8M4 8h8" stroke="#445D7A" stroke-width="1.8" stroke-linecap="round"/></svg></button>'+
+      '</div>';
+  }).join('');
+
+  SP.el('m-rows').querySelectorAll('.stp').forEach(function(b){
+    b.addEventListener('click', function(){
+      var i = +b.dataset.i, d = +b.dataset.d;
+      freq[i] = Math.max(0, freq[i] + d);
+      draw();
+    });
+  });
+
+  var tot = freq.reduce(function(a,b){ return a+b; },0);
+  var ok = tot === TOTAL;
+  var box = SP.el('m-sum');
+  box.style.background = ok ? 'var(--a-bg)' : 'var(--d-bg)';
+  box.innerHTML = (ok ? SP.ICON.ok : SP.ICON.bad) +
+    '<span class="grow" style="font-size:12.5px;font-weight:600;color:'+(ok?'var(--a-tx)':'var(--d-tx)')+'">Jumlah baris '+tot+(ok?'':' — harus '+TOTAL)+'</span>'+
+    '<span style="font-size:12px;font-weight:700;color:'+(ok?'var(--up)':'var(--down)')+'">NRR '+SP.id3(SP.nrrSkm(freq)).slice(0,4)+'</span>';
+}
+draw();
+SP.el('m-next').addEventListener('click', function(){ SP.toast('Prototipe: lanjut ke unsur berikutnya.'); });
+</script>
+</body>
+</html>

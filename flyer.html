@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generate Flyer Hasil Survei — SIPANDU PRIMA</title>
+<meta name="description" content="Mengubah hasil survei periode berjalan menjadi gambar siap publikasi.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+<style>
+.flyer { width:480px; background:var(--cream-50); border-radius:12px; overflow:hidden;
+         display:flex; flex-direction:column; box-shadow:0 8px 26px rgba(7,26,53,.16); }
+.flyer .fh { padding:20px 24px 18px; background:var(--navy-900); display:flex; align-items:center; gap:12px; }
+.flyer .fp { padding:9px 24px; background:var(--navy-700); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.flyer .fbox { padding:14px 16px; background:#fff; border:1px solid var(--border); border-radius:11px; flex:1 1 0; min-width:0; }
+.flyer .fbar { height:8px; border-radius:999px; background:#EDE7DB; }
+.flyer .fbar > i { display:block; height:8px; border-radius:999px; }
+</style>
+</head>
+<body>
+<div class="scroller"><div class="desk">
+<div id="app-topbar"></div>
+
+<div class="pagehead">
+  <div>
+    <h1>Generate Flyer Hasil Survei</h1>
+    <div class="sub">Mengubah hasil periode berjalan menjadi gambar siap publikasi, memenuhi kewajiban pengumuman hasil SKM kepada masyarakat.</div>
+  </div>
+  <span class="grow"></span>
+  <button type="button" class="btn">Simpan sebagai draf</button>
+  <button type="button" class="btn p" id="btn-unduh">Unduh Flyer</button>
+</div>
+
+<main class="page">
+<div class="row">
+
+  <!-- Pratinjau -->
+  <div class="card pad grow" style="display:flex;flex-direction:column;align-items:center;min-width:0">
+    <div style="width:100%;display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <div class="card-title">Pratinjau</div>
+      <span class="tag" id="tag-size">1080 × 1350 px · 4:5</span>
+      <span class="grow"></span>
+      <span style="font-size:11.5px;color:var(--muted-2)">Diperbarui otomatis saat opsi diubah</span>
+    </div>
+
+    <div class="flyer" id="flyer">
+      <div class="fh">
+        <img src="assets/img/logo.png" alt="" style="width:44px;height:44px;border-radius:9px;flex-shrink:0">
+        <div style="flex-grow:1;min-width:0">
+          <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em;line-height:1.2" id="f-satker">POLRES KOTAWARINGIN TIMUR</div>
+          <div style="font-size:10.5px;color:var(--sand-200);font-weight:600;letter-spacing:.06em;margin-top:3px">HASIL SURVEI PELAYANAN PUBLIK</div>
+        </div>
+      </div>
+
+      <div class="fp">
+        <span style="font-size:11.5px;font-weight:700;color:#fff">Triwulan III 2026</span>
+        <span style="font-size:11px;color:#9FB6D1">·</span>
+        <span style="font-size:11.5px;color:#C9D8E8" id="f-resp"></span>
+        <span class="grow"></span>
+        <span style="font-size:11.5px;color:#C9D8E8">11 unit layanan</span>
+      </div>
+
+      <div style="padding:20px 24px 0;display:flex;gap:14px" id="f-angka"></div>
+
+      <div style="padding:16px 24px 0" id="f-top">
+        <div style="font-size:10.5px;font-weight:700;color:var(--muted);letter-spacing:.04em">UNSUR DENGAN NILAI TERTINGGI</div>
+        <div style="margin-top:9px;display:flex;flex-direction:column;gap:7px" id="f-top-bars"></div>
+      </div>
+
+      <div style="padding:14px 24px 0" id="f-fix">
+        <div style="padding:12px 14px;background:var(--c-bg);border-radius:10px">
+          <div style="font-size:10.5px;font-weight:700;color:var(--c-tx);letter-spacing:.04em">SEDANG KAMI PERBAIKI</div>
+          <div style="font-size:11.5px;color:var(--c-tx);line-height:1.5;margin-top:5px" id="f-fix-txt"></div>
+        </div>
+      </div>
+
+      <div style="padding:14px 24px 0" id="f-strat">
+        <div style="padding:11px 14px;background:#F5F8FC;border:1px solid #DCE6F1;border-radius:10px;font-size:11.5px;color:var(--slate-500);line-height:1.5">
+          <b>5 strategi tindak lanjut</b> sedang berjalan di 4 unit layanan pada periode ini.
+        </div>
+      </div>
+
+      <div style="height:18px;flex-grow:1"></div>
+
+      <div style="padding:14px 24px 18px;display:flex;align-items:center;gap:14px;border-top:1px solid var(--border)" id="f-qr">
+        <div style="width:56px;height:56px;flex-shrink:0;background:#fff;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <rect x="4" y="4" width="11" height="11" stroke="#071A35" stroke-width="2.6"/>
+            <rect x="25" y="4" width="11" height="11" stroke="#071A35" stroke-width="2.6"/>
+            <rect x="4" y="25" width="11" height="11" stroke="#071A35" stroke-width="2.6"/>
+            <rect x="20" y="20" width="4" height="4" fill="#071A35"/><rect x="28" y="20" width="4" height="4" fill="#071A35"/>
+            <rect x="20" y="28" width="4" height="4" fill="#071A35"/><rect x="32" y="28" width="4" height="4" fill="#071A35"/>
+            <rect x="28" y="32" width="4" height="4" fill="#071A35"/>
+          </svg>
+        </div>
+        <div style="flex-grow:1;min-width:0">
+          <div style="font-size:12px;font-weight:700">Penilaian Anda menentukan perbaikan kami</div>
+          <div style="font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.4">Pindai untuk mengisi survei layanan yang baru saja Anda terima</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:9.5px;font-weight:800;color:var(--navy-700);letter-spacing:.06em">SIPANDU PRIMA</div>
+          <div style="font-size:9px;color:var(--muted-2);margin-top:2px">Polda Kalteng</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opsi -->
+  <div class="card" style="width:392px;flex-shrink:0;align-self:flex-start">
+    <div style="padding:15px 18px 12px;border-bottom:1px solid var(--border)">
+      <div class="card-title">Opsi flyer</div>
+      <div class="card-sub">Data diambil dari periode dan cakupan yang sedang aktif</div>
+    </div>
+    <div style="padding:17px 18px;display:flex;flex-direction:column;gap:15px">
+
+      <div>
+        <span class="lbl">Template</span>
+        <div style="display:flex;gap:8px" id="tmpl">
+          <button type="button" class="btn grow on" data-t="lengkap" style="flex-direction:column;height:auto;padding:9px 6px;justify-content:center">
+            <b style="font-size:12px">Lengkap</b><span style="font-size:10px;color:var(--muted)">IKM, IPAK, unsur</span></button>
+          <button type="button" class="btn grow" data-t="ringkas" style="flex-direction:column;height:auto;padding:9px 6px;justify-content:center">
+            <b style="font-size:12px">Ringkas</b><span style="font-size:10px;color:var(--muted)">Dua angka saja</span></button>
+          <button type="button" class="btn grow" data-t="loket" style="flex-direction:column;height:auto;padding:9px 6px;justify-content:center">
+            <b style="font-size:12px">Papan Loket</b><span style="font-size:10px;color:var(--muted)">Cetak A4</span></button>
+        </div>
+      </div>
+
+      <div><label class="lbl" for="g-ukuran">Ukuran keluaran</label>
+        <select class="fld" id="g-ukuran">
+          <option data-r="4:5">1080 × 1350 px — Instagram potret</option>
+          <option data-r="1:1">1080 × 1080 px — Instagram persegi</option>
+          <option data-r="9:16">1080 × 1920 px — Status WhatsApp</option>
+          <option data-r="A4">A4 potret — cetak papan pengumuman</option>
+          <option data-r="A5">A5 potret — selebaran loket</option>
+        </select></div>
+
+      <div><label class="lbl" for="g-cakupan">Cakupan data</label>
+        <select class="fld" id="g-cakupan">
+          <option value="polres">Polres Kotawaringin Timur — seluruh unit</option>
+          <option value="polda">Polda Kalteng — seluruh satwil</option>
+          <option value="unit">Pelayanan SIM (Satpas) — satu unit</option>
+        </select></div>
+
+      <div>
+        <span class="lbl">Elemen yang ditampilkan</span>
+        <label class="chk"><input type="checkbox" checked data-el="ikm"> Indeks Kepuasan Masyarakat</label>
+        <label class="chk"><input type="checkbox" checked data-el="ipak"> Indeks Persepsi Anti Korupsi</label>
+        <label class="chk"><input type="checkbox" checked data-el="top"> Tiga unsur nilai tertinggi</label>
+        <label class="chk"><input type="checkbox" checked data-el="fix"> Unsur yang sedang diperbaiki</label>
+        <label class="chk"><input type="checkbox" checked data-el="qr"> QR pengisian survei</label>
+        <label class="chk"><input type="checkbox" data-el="strat"> Jumlah strategi tindak lanjut</label>
+      </div>
+
+      <div><label class="lbl" for="g-format">Format berkas</label>
+        <select class="fld" id="g-format">
+          <option>PNG — kualitas terbaik untuk media sosial</option>
+          <option>JPG — ukuran berkas lebih kecil</option>
+          <option>PDF — untuk dicetak</option>
+        </select></div>
+    </div>
+
+    <div style="padding:14px 18px;background:#F5F8FC;border-top:1px solid var(--border);border-radius:0 0 12px 12px">
+      <div class="note info" style="background:none;border:none;padding:0">
+        <div>Flyer hanya dapat dibuat dari data yang sudah tervalidasi. Setiap flyer yang diunduh tercatat di audit log beserta periode dan cakupannya.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+</div></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+SP.mount(SP.topbar({ sub:'Polres Kotawaringin Timur · Sampit', nav:'flyer.html', who:'[NAMA PEJABAT]', role:'Kasihumas · Operator Polres', ini:'HM' }));
+
+var SRC = { polres: DATA.POLRES, polda: DATA.POLDA, unit: DATA.UNITX };
+var NAMA = {
+  polres: 'POLRES KOTAWARINGIN TIMUR',
+  polda: 'POLDA KALIMANTAN TENGAH',
+  unit: 'PELAYANAN SIM (SATPAS) · POLRES KOTIM'
+};
+
+function render(){
+  var key = SP.el('g-cakupan').value, d = SRC[key];
+  var on = {};
+  document.querySelectorAll('[data-el]').forEach(function(c){ on[c.dataset.el] = c.checked; });
+
+  SP.el('f-satker').textContent = NAMA[key];
+  SP.el('f-resp').textContent = SP.idn(d.responden) + ' responden';
+
+  /* dua angka utama */
+  var boxes = '';
+  if (on.ikm) boxes += box('INDEKS KEPUASAN', d.ikm);
+  if (on.ipak) boxes += box('ANTI KORUPSI', d.ipak);
+  SP.el('f-angka').innerHTML = boxes;
+  SP.el('f-angka').style.display = boxes ? 'flex' : 'none';
+
+  /* tiga unsur tertinggi */
+  var top = d.unsur.slice(-3).reverse();
+  SP.el('f-top-bars').innerHTML = top.map(function(u){
+    var v = u[2]*25;
+    return '<div style="display:flex;align-items:center;gap:10px">'+
+      '<span style="width:124px;flex-shrink:0;font-size:11.5px;font-weight:600">'+u[1]+'</span>'+
+      '<div class="fbar grow"><i class="f-'+SP.grade(v)+'" style="width:'+v.toFixed(1)+'%"></i></div>'+
+      '<span class="num" style="width:34px;flex-shrink:0;text-align:right;font-size:12px;font-weight:800">'+SP.id1(v)+'</span></div>';
+  }).join('');
+  SP.el('f-top').style.display = on.top ? 'block' : 'none';
+
+  /* unsur perbaikan */
+  var low = d.unsur.slice(0,2);
+  SP.el('f-fix-txt').innerHTML = low.map(function(u){
+    return u[1] + ' (' + SP.id1(u[2]*25) + ')';
+  }).join(' dan ') + '. ' + d.strategi.total + ' strategi perbaikan sedang berjalan.';
+  SP.el('f-fix').style.display = on.fix ? 'block' : 'none';
+
+  SP.el('f-qr').style.display = on.qr ? 'flex' : 'none';
+  SP.el('f-strat').style.display = on.strat ? 'block' : 'none';
+}
+
+function box(lab, v){
+  return '<div class="fbox"><div style="font-size:10.5px;font-weight:700;color:var(--muted);letter-spacing:.04em">'+lab+'</div>'+
+    '<div style="display:flex;align-items:baseline;gap:8px;margin-top:6px">'+
+    '<div style="font-size:38px;font-weight:800;line-height:1">'+SP.id1(v)+'</div>'+
+    SP.chip(v, {label: SP.gradeUp(v)})+'</div>'+
+    '<div style="font-size:11px;color:var(--muted);margin-top:5px">Mutu '+
+    (SP.grade(v)==='a'?'Sangat Baik':SP.grade(v)==='b'?'Baik':SP.grade(v)==='c'?'Kurang Baik':'Tidak Baik')+'</div></div>';
+}
+
+document.querySelectorAll('[data-el]').forEach(function(c){ c.addEventListener('change', render); });
+SP.el('g-cakupan').addEventListener('change', render);
+
+SP.el('g-ukuran').addEventListener('change', function(){
+  var o = this.options[this.selectedIndex];
+  SP.el('tag-size').textContent = this.value.split(' — ')[0] + ' · ' + o.dataset.r;
+  var f = SP.el('flyer');
+  var r = o.dataset.r;
+  f.style.minHeight = r === '9:16' ? '760px' : r === '1:1' ? '480px' : r === 'A5' ? '560px' : '600px';
+});
+
+document.querySelectorAll('#tmpl button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#tmpl button').forEach(function(x){ x.classList.remove('on'); x.style.borderColor=''; x.style.background=''; });
+    b.classList.add('on'); b.style.borderColor = 'var(--navy-700)'; b.style.background = '#F1F5FA';
+    var t = b.dataset.t;
+    var set = { ikm:true, ipak:true, top:t!=='ringkas', fix:t!=='ringkas', qr:true, strat:t==='loket' };
+    document.querySelectorAll('[data-el]').forEach(function(c){ c.checked = set[c.dataset.el]; });
+    render();
+  });
+});
+
+SP.el('btn-unduh').addEventListener('click', function(){
+  SP.toast('Prototipe: di versi produksi, flyer dirender di server lalu diunduh sebagai ' + SP.el('g-format').value.split(' — ')[0] + '.');
+});
+
+SP.el('flyer').style.minHeight = '600px';
+document.querySelector('#tmpl button').style.borderColor = 'var(--navy-700)';
+document.querySelector('#tmpl button').style.background = '#F1F5FA';
+render();
+</script>
+</body>
+</html>

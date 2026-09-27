@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Input Rekap SKM — SIPANDU PRIMA</title>
+<meta name="description" content="Form input rekap SKM mingguan dengan tempel dari spreadsheet dan impor Excel.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="scroller">
+<div class="desk">
+
+<div id="app-topbar"></div>
+
+<div class="pagehead">
+  <div>
+    <div class="eyebrow">Input Rekap · Pekan 39 tahun 2026</div>
+    <h1>Rekap Survei Mingguan</h1>
+  </div>
+  <div class="seg" style="align-self:flex-end;margin-bottom:2px">
+    <a href="input-skm.html" class="on">SKM · 9 unsur</a>
+    <a href="input-spak.html">SPAK · 4 unsur</a>
+  </div>
+  <span class="tag" style="align-self:flex-end;margin-bottom:5px">Status: Draft</span>
+  <span class="grow"></span>
+  <button type="button" class="btn">Batal</button>
+  <button type="button" class="btn">Simpan Draft</button>
+  <button type="button" class="btn p" id="btn-kirim">Kirim untuk Validasi →</button>
+</div>
+
+<main class="page">
+<div class="row">
+
+  <!-- ============ KIRI ============ -->
+  <div class="col" style="width:352px;flex-shrink:0">
+
+    <div class="card pad">
+      <div class="card-title">Identitas entri</div>
+      <div style="margin-top:15px">
+        <label class="lbl" for="f-unit">Unit layanan</label>
+        <input class="fld" id="f-unit" type="text" value="Pelayanan SIM (Satpas)" readonly>
+      </div>
+      <div style="margin-top:13px">
+        <label class="lbl" for="f-pekan">Periode pekan (ISO-8601)</label>
+        <input class="fld" id="f-pekan" type="text" value="Pekan 39 · 21 – 27 September 2026">
+      </div>
+      <div style="margin-top:13px">
+        <label class="lbl" for="f-total">Total responden pekan ini</label>
+        <input class="fld num" id="f-total" type="number" value="38" min="0" style="font-size:18px;font-weight:700">
+        <div class="note" style="background:none;border:none;padding:6px 0 0;font-size:11.5px;color:var(--muted)" id="tot-hint">Setiap baris unsur harus berjumlah tepat 38.</div>
+      </div>
+      <div style="margin-top:13px">
+        <label class="lbl" for="f-catatan">Catatan operator (opsional)</label>
+        <textarea class="fld" id="f-catatan" rows="2">Loket tutup 2 hari karena gangguan jaringan Satpas.</textarea>
+      </div>
+    </div>
+
+    <div class="card pad">
+      <div class="card-title">Pemeriksaan otomatis</div>
+      <div style="margin-top:10px" id="cek"></div>
+    </div>
+
+    <div class="note sand grow" style="align-items:flex-start">
+      <div>
+        <div style="font-size:13.5px;font-weight:700">Alur setelah dikirim</div>
+        <div style="margin-top:7px;line-height:1.6">Entri masuk antrean <b>Kanit Regident</b> untuk divalidasi, dan notifikasi WhatsApp dikirim ke beliau. Data baru tampil di dashboard Polres dan Polda setelah disetujui.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ KANAN ============ -->
+  <div class="col grow" style="min-width:0">
+
+    <div class="card pad grow" style="display:flex;flex-direction:column;min-width:0">
+      <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="card-title" id="mx-title"></div>
+          <div class="card-sub" id="mx-sub"></div>
+        </div>
+        <span class="grow"></span>
+        <button type="button" class="btn" id="btn-paste">Tempel dari spreadsheet</button>
+        <button type="button" class="btn" id="btn-import">Impor dari Excel</button>
+      </div>
+      <div style="margin-top:16px;overflow-x:auto" id="matrix"></div>
+    </div>
+
+    <div class="card pad" style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+      <div style="flex-shrink:0">
+        <div class="lbl" style="margin:0">Pratinjau indeks pekan ini</div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:6px">
+          <div style="font-size:38px;font-weight:700;line-height:1" id="pv-val">–</div>
+          <span id="pv-chip"></span>
+        </div>
+        <div style="font-size:11px;color:var(--muted-2);margin-top:8px" id="pv-rumus"></div>
+      </div>
+      <div style="width:1px;height:82px;background:var(--border);flex-shrink:0"></div>
+      <div class="grow" style="min-width:260px">
+        <div class="lbl" style="margin:0">Komposisi jawaban entri ini</div>
+        <div style="margin-top:10px" id="pv-stack"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<!-- ============ MODAL: TEMPEL ============ -->
+<div class="modal-bg" id="m-paste" role="dialog" aria-modal="true" aria-labelledby="m-paste-t">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="card-title" id="m-paste-t">Tempel dari spreadsheet</div>
+        <div class="card-sub">Salin blok angka dari Excel, Google Sheets, atau LibreOffice, lalu tempel di sini.</div>
+      </div>
+      <span class="grow"></span>
+      <button class="x" type="button" onclick="SP.closeModal('m-paste')" aria-label="Tutup">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="flex:1 1 320px;min-width:280px">
+          <div class="lbl">Cara memakai</div>
+          <ol style="margin:0;padding-left:19px;font-size:12.5px;line-height:1.75;color:var(--slate-500)">
+            <li>Buka berkas rekap Anda di Excel atau Google Sheets.</li>
+            <li>Blok <b>hanya kolom angkanya</b>, 6 kolom (skala 1 sampai 6) dan 9 baris unsur.</li>
+            <li>Tekan <span class="kbd">Ctrl</span> + <span class="kbd">C</span>.</li>
+            <li>Klik kotak di bawah, tekan <span class="kbd">Ctrl</span> + <span class="kbd">V</span>.</li>
+            <li>Periksa hasil pembacaan, lalu tekan <b>Muat ke matriks</b>.</li>
+          </ol>
+        </div>
+        <div style="flex:1 1 300px;min-width:260px">
+          <div class="lbl">Contoh tempelan yang benar</div>
+          <pre class="sample">0	1	3	9	15	10
+0	0	2	7	17	12
+1	1	4	10	14	8
+2	3	6	12	10	5
+0	0	1	3	12	22
+1	2	5	11	13	6
+0	1	3	8	16	10
+0	1	2	7	16	12
+1	1	3	10	14	9</pre>
+        </div>
+      </div>
+
+      <div class="note info" style="margin-top:16px">
+        <div>
+          <b>Yang dikenali sistem</b>
+          <ul style="margin:7px 0 0;padding-left:18px;line-height:1.7">
+            <li>Pemisah <b>TAB</b> (bawaan saat menyalin dari Excel), <b>koma</b>, dan <b>titik koma</b>.</li>
+            <li>Baris judul dan kolom label di kiri <b>otomatis dilewati</b> — sistem hanya mengambil sel yang berisi angka bulat.</li>
+            <li>Bila satu baris memuat lebih dari 6 angka, yang dipakai adalah <b>6 angka paling kanan</b>. Jadi kolom nomor dan nama unsur boleh ikut tersalin.</li>
+            <li>Urutan baris mengikuti urutan unsur pada matriks: U1, U2, U3, U4, U5, U6, U7a, U7b, U8.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <label class="lbl" for="paste-area">Tempel di sini</label>
+        <textarea class="fld" id="paste-area" rows="7" style="font-family:ui-monospace,monospace;font-size:12px" placeholder="Tekan Ctrl+V setelah menyalin dari spreadsheet…"></textarea>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="lbl">Hasil pembacaan</div>
+        <div id="paste-preview" style="background:#FBF7EF;border:1px solid var(--border);border-radius:9px;padding:11px 13px;font-size:12px;min-height:60px;max-height:190px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button type="button" class="btn" id="btn-paste-demo">Isi contoh</button>
+      <span class="grow"></span>
+      <button type="button" class="btn" onclick="SP.closeModal('m-paste')">Batal</button>
+      <button type="button" class="btn p" id="btn-paste-go">Muat ke matriks</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: IMPOR ============ -->
+<div class="modal-bg" id="m-import" role="dialog" aria-modal="true" aria-labelledby="m-imp-t">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-head">
+      <div>
+        <div class="card-title" id="m-imp-t">Impor dari Excel</div>
+        <div class="card-sub">Unggah berkas rekap dalam format .xlsx, .xls, atau .csv.</div>
+      </div>
+      <span class="grow"></span>
+      <button class="x" type="button" onclick="SP.closeModal('m-import')" aria-label="Tutup">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div id="dropzone" tabindex="0" role="button"
+           style="border:2px dashed #CFC7B8;border-radius:12px;padding:30px 20px;text-align:center;cursor:pointer;transition:.12s">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="margin-bottom:8px">
+          <path d="M12 16V4m-4 4 4-4 4 4" stroke="#18385F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16" stroke="#18385F" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <div style="font-size:14px;font-weight:700">Letakkan berkas di sini, atau klik untuk memilih</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:5px">.xlsx · .xls · .csv — maksimal 2 MB</div>
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv,.tsv,.txt" style="display:none">
+      </div>
+
+      <div class="note info" style="margin-top:16px">
+        <div>
+          <b>Susunan berkas yang diharapkan</b>
+          <div style="margin-top:6px;line-height:1.6">Lembar pertama, baris pertama boleh berisi judul kolom. Tiap baris berikutnya mewakili satu unsur, berurutan U1 sampai U8. Kolom angka boleh didahului kolom kode dan nama unsur — sistem mengambil 6 angka paling kanan.</div>
+          <div style="margin-top:9px;display:flex;gap:9px;flex-wrap:wrap">
+            <button type="button" class="btn" id="btn-tpl-xlsx">Unduh template .xlsx</button>
+            <button type="button" class="btn" id="btn-tpl-csv">Unduh template .csv</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="note warn" style="margin-top:12px">
+        <div>Impor <b>menimpa seluruh isi matriks</b>. Periksa kembali angkanya sebelum mengirim untuk validasi.</div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button type="button" class="btn" onclick="SP.closeModal('m-import')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/input.js"></script>
+<script>
+SP.mount(SP.topbar({
+  sub: 'Pelayanan SIM (Satpas) · Polres Kotim',
+  who: '[NAMA PETUGAS]', role: 'Banit Regident · Operator Unit', ini: 'BN'
+}));
+initInput('skm');
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategi dan Evaluasi — SIPANDU PRIMA</title>
+<meta name="description" content="Tindak lanjut untuk unsur bermutu C ke bawah, beserta hasil evaluasi efektivitasnya.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="scroller"><div class="desk">
+<div id="app-topbar"></div>
+
+<div class="pagehead">
+  <div>
+    <h1>Strategi dan Evaluasi</h1>
+    <div class="sub">Unsur bermutu C ke bawah wajib punya strategi tindak lanjut dan dievaluasi pada periode berikutnya.</div>
+  </div>
+  <span class="grow"></span>
+  <button type="button" class="btn">Semua unit (11) ▾</button>
+  <button type="button" class="btn">Semua hasil evaluasi ▾</button>
+  <button type="button" class="btn">Ekspor XLSX</button>
+  <button type="button" class="btn p">+ Tetapkan Strategi</button>
+</div>
+
+<main class="page">
+  <div class="row sm" id="kpi"></div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Daftar strategi dan hasil evaluasinya</div>
+        <div class="card-sub">NRR dibandingkan antara periode temuan dan periode setelah strategi berjalan</div>
+      </div>
+      <span class="grow"></span>
+      <a href="bank-strategi.html" style="font-size:12.5px;font-weight:700">Kelola Bank Strategi →</a>
+    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr>
+        <th style="min-width:180px">UNIT LAYANAN</th><th>TEMUAN</th><th style="min-width:130px">UNSUR</th>
+        <th style="min-width:260px">STRATEGI</th><th style="min-width:120px">DITETAPKAN</th><th>PELAKSANAAN</th>
+        <th class="r">NRR AWAL</th><th class="r">NRR SESUDAH</th><th class="r">SELISIH</th><th style="min-width:140px">HASIL EVALUASI</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </div>
+
+  <div class="row sm">
+    <div class="note good grow" style="flex-basis:0">
+      <span style="width:20px;height:20px;border-radius:50%;background:var(--a);flex-shrink:0;margin-top:1px"></span>
+      <div><div style="font-size:13.5px;font-weight:800">Efektif</div>
+      <div style="margin-top:4px">NRR unsur naik ≥ 0,05 atau mutu kembali ke A</div>
+      <div style="margin-top:7px;color:#B45309;font-weight:600">→ Masuk bank strategi, disarankan ke unit lain</div></div>
+    </div>
+    <div class="note warn grow" style="flex-basis:0">
+      <span style="width:20px;height:20px;border-radius:50%;background:#EAB308;flex-shrink:0;margin-top:1px"></span>
+      <div><div style="font-size:13.5px;font-weight:800">Belum terlihat</div>
+      <div style="margin-top:4px">Perubahan NRR −0,03 sampai +0,05</div>
+      <div style="margin-top:7px;color:#B45309;font-weight:600">→ Lanjutkan satu periode lagi</div></div>
+    </div>
+    <div class="note bad grow" style="flex-basis:0">
+      <span style="width:20px;height:20px;border-radius:50%;background:var(--d);flex-shrink:0;margin-top:1px"></span>
+      <div><div style="font-size:13.5px;font-weight:800">Tidak efektif</div>
+      <div style="margin-top:4px">NRR unsur turun ≥ 0,03</div>
+      <div style="margin-top:7px;color:#B45309;font-weight:600">→ Ganti strategi, bahas di forum Anev</div></div>
+    </div>
+  </div>
+</main>
+</div></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+SP.mount(SP.topbar({ sub:'Polres Kotawaringin Timur · Sampit', nav:'strategi.html', who:'[NAMA PEJABAT]', role:'Kabag Ren · Pimpinan Polres', ini:'BR' }));
+
+var n = { efektif:0, belum:0, tidak:0, menunggu:0, jalan:0 };
+
+SP.el('rows').innerHTML = DATA.STRATEGI.map(function(x){
+  var awal = x[10], sesudah = x[11], sel = null, ev='Menunggu evaluasi', cls='m-x', dcls='';
+  if (sesudah !== null) {
+    sel = sesudah - awal;
+    if (sel >= 0.05)      { ev='Efektif';       cls='m-a'; dcls='up';   n.efektif++; }
+    else if (sel <= -0.03){ ev='Tidak efektif'; cls='m-d'; dcls='down'; n.tidak++; }
+    else                  { ev='Belum terlihat';cls='m-c'; dcls='';     n.belum++; }
+  } else n.menunggu++;
+  if (x[9]!=='Baru ditetapkan') n.jalan++;
+
+  var selTxt = sel===null ? '–' : (sel>=0?'+':'−') + Math.abs(sel).toFixed(3).replace('.',',');
+  var st = x[9]==='Selesai' ? 'st-done' : x[9]==='Berjalan' ? 'st-run' : 'st-new';
+  var mu = x[4]==='D' ? 'bad' : 'warn';
+
+  return '<tr>'+
+    '<td><div style="font-weight:600">'+x[0]+'</div><div class="t2">'+x[1]+'</div></td>'+
+    '<td style="color:var(--slate-500)">'+x[2]+'</td>'+
+    '<td><div style="font-weight:600">'+x[3]+'</div><div style="margin-top:3px"><span class="tag '+mu+'">Mutu '+x[4]+'</span></div></td>'+
+    '<td><div style="font-size:10px;font-weight:700;color:var(--navy-700)">'+x[5]+'</div><div style="margin-top:2px;line-height:1.4">'+x[6]+'</div></td>'+
+    '<td><div style="font-size:11.5px;font-weight:600">'+x[7]+'</div><div class="t2">'+x[8]+'</div></td>'+
+    '<td><span class="st '+st+'">'+x[9]+'</span></td>'+
+    '<td class="r num" style="color:var(--slate-500);font-weight:600">'+SP.id3(awal)+'</td>'+
+    '<td class="r num b">'+SP.id3(sesudah)+'</td>'+
+    '<td class="r num '+dcls+'" style="font-weight:800">'+selTxt+'</td>'+
+    '<td><span class="chip '+cls+'"><i></i>'+ev+'</span></td>'+
+    '</tr>';
+}).join('');
+
+function kpi(lab, val, satuan, note, warna){
+  return '<div class="card kpi"><div class="lab">'+lab+'</div>'+
+    '<div style="display:flex;align-items:baseline;gap:7px;margin-top:9px">'+
+    '<div style="font-size:32px;font-weight:700;line-height:1'+(warna?';color:'+warna:'')+'">'+val+'</div>'+
+    '<div style="font-size:13px;color:#94A3B8">'+satuan+'</div></div>'+
+    '<div class="note" style="margin-top:10px;padding:0;background:none;border:none;font-size:11.5px">'+note+'</div></div>';
+}
+SP.el('kpi').innerHTML =
+  kpi('Temuan menunggu strategi', 3, 'unsur bermutu C/D', '<span style="color:#B45309;font-weight:600">Tenggat penetapan 7 Oktober 2026</span>') +
+  kpi('Strategi berjalan', n.jalan, 'dari '+DATA.STRATEGI.length+' ditetapkan', '2 selesai · 3 berjalan · 2 baru') +
+  kpi('Dinilai efektif', n.efektif, 'dari '+(n.efektif+n.belum+n.tidak)+' dievaluasi', 'Rata-rata kenaikan NRR +0,042', 'var(--up)') +
+  kpi('Perlu diganti', n.tidak, 'strategi tidak efektif', '<span style="color:var(--down);font-weight:600">Dibahas pada forum Anev bulanan</span>', 'var(--down)');
+</script>
+</body>
+</html>

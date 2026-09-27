@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Unit Pelayanan SIM — SIPANDU PRIMA</title>
+<meta name="description" content="Prototipe dashboard jenjang unit layanan: batas terbawah cakupan data, tanpa perbandingan antar unit.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="scroller">
+  <div class="desk">
+    <div id="app-topbar"></div>
+    <div class="filterbar" id="filterbar"></div>
+    <main class="page" id="page"></main>
+  </div>
+</div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<script>renderDashboard('unit');</script>
+</body>
+</html>

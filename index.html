@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIPANDU PRIMA — Prototipe Sistem Monitoring Survei</title>
+<meta name="description" content="Prototipe antarmuka sistem monitoring survei pelayanan publik Polda Kalimantan Tengah. Seluruh angka adalah data contoh.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<div class="hero-idx">
+  <div style="max-width:1080px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <img src="assets/img/logo.png" alt="" style="width:56px;height:56px;border-radius:12px">
+      <div>
+        <h1 style="margin:0;font-size:28px;font-weight:800;letter-spacing:.01em">SIPANDU PRIMA</h1>
+        <div style="font-size:13.5px;color:#9FB0C6;margin-top:5px">Sistem Monitoring Survei Pelayanan Publik · Polda Kalimantan Tengah</div>
+      </div>
+      <span class="grow"></span>
+      <span class="badge-demo" style="font-size:11.5px;padding:7px 13px">PROTOTIPE · DATA CONTOH</span>
+    </div>
+    <p style="max-width:720px;font-size:14px;color:#C9D8E8;line-height:1.65;margin:22px 0 0">
+      Prototipe antarmuka, bukan sistem yang berjalan. Seluruh angka di dalamnya adalah data contoh
+      yang disusun agar rantai perhitungannya konsisten: rekap unit menjumlah ke Polres, Polres menjumlah ke Polda.
+      Tidak ada data nyata Polri di sini, dan tidak ada data yang tersimpan ke mana pun.
+    </p>
+  </div>
+</div>
+
+<main style="max-width:1080px;margin:0 auto;padding:28px 24px 48px">
+
+  <div class="note warn" style="margin-bottom:26px">
+    <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="#EAB308"/><path d="M8 4.7v4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.1" r=".95" fill="#fff"/></svg>
+    <div>Nama pejabat sengaja ditulis sebagai <b>[NAMA PEJABAT]</b> dan nomor telepon disamarkan. Jangan mengisinya dengan data asli selama halaman ini dapat diakses publik.</div>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:800;margin:0 0 4px">Dashboard berjenjang</h2>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Tiga jenjang cakupan. Pengalih SKM dan SPAK di bilah filter berfungsi penuh.</div>
+  <div class="idx-grid" style="margin-bottom:34px">
+
+    <a class="card idx-card" href="dashboard-polda.html">
+      <div class="n">01 · JENJANG POLDA</div>
+      <div class="t">Dashboard Polda Kalteng</div>
+      <div class="d">IKM 83,8 dan IPAK 91,4 untuk seluruh 14 satuan kewilayahan, lengkap dengan peringkat antar-Polres yang hanya tersedia di jenjang ini.</div>
+      <div class="r">/dashboard-polda.html</div>
+    </a>
+
+    <a class="card idx-card" href="dashboard-polres.html">
+      <div class="n">02 · JENJANG POLRES</div>
+      <div class="t">Dashboard Polres Kotawaringin Timur</div>
+      <div class="d">Matriks 11 unit layanan × 9 unsur SKM, atau × 4 unsur SPAK. Cakupan terkunci pada satwil sendiri, tanpa akses ke Polres lain.</div>
+      <div class="r">/dashboard-polres.html</div>
+    </a>
+
+    <a class="card idx-card" href="dashboard-unit.html">
+      <div class="n">03 · JENJANG UNIT</div>
+      <div class="t">Dashboard Unit Pelayanan SIM</div>
+      <div class="d">Batas terbawah cakupan data. Panel perbandingan antar unit sengaja dihilangkan, bukan disembunyikan.</div>
+      <div class="r">/dashboard-unit.html</div>
+    </a>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:800;margin:0 0 4px">Input dan validasi</h2>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Matriks dapat diketik, ditempel dari spreadsheet, atau diimpor dari Excel. Total baris, NRR, dan indeks dihitung ulang setiap ketikan.</div>
+  <div class="idx-grid" style="margin-bottom:34px">
+
+    <a class="card idx-card" href="input-skm.html">
+      <div class="n">04 · OPERATOR UNIT</div>
+      <div class="t">Input Rekap SKM</div>
+      <div class="d">Matriks 9 unsur × 6 skala. Tersedia tempel dari spreadsheet, impor Excel, dan unduh template. Semuanya berfungsi di prototipe ini.</div>
+      <div class="r">/input-skm.html</div>
+    </a>
+
+    <a class="card idx-card" href="input-spak.html">
+      <div class="n">05 · OPERATOR UNIT</div>
+      <div class="t">Input Rekap SPAK</div>
+      <div class="d">Matriks 4 unsur × 3 pilihan jawaban. Jumlah jawaban "Ada" yang melewati ambang memicu peringatan eskalasi.</div>
+      <div class="r">/input-spak.html</div>
+    </a>
+
+    <a class="card idx-card" href="validasi.html">
+      <div class="n">06 · KEPALA UNIT</div>
+      <div class="t">Antrean Validasi</div>
+      <div class="d">Memeriksa kedua matriks sekaligus sebelum menyetujui. Hanya entri tervalidasi yang masuk ke dashboard dan laporan.</div>
+      <div class="r">/validasi.html</div>
+    </a>
+
+    <a class="card idx-card" href="mobile.html">
+      <div class="n">07 · PONSEL</div>
+      <div class="t">Input Mobile Operator</div>
+      <div class="d">Tampilan 390 px untuk operator yang mengisi dari lapangan. Tombol tambah dan kurang berfungsi, NRR ikut berubah.</div>
+      <div class="r">/mobile.html</div>
+    </a>
+  </div>
+
+  <h2 style="font-size:16px;font-weight:800;margin:0 0 4px">Tindak lanjut, notifikasi, dan publikasi</h2>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Bagian yang mengubah hasil survei menjadi tindakan, lalu mengumumkannya.</div>
+  <div class="idx-grid" style="margin-bottom:34px">
+
+    <a class="card idx-card" href="strategi.html">
+      <div class="n">08 · PIMPINAN POLRES</div>
+      <div class="t">Strategi dan Evaluasi</div>
+      <div class="d">Unsur bermutu C ke bawah wajib punya tindak lanjut. Efektivitasnya dihitung otomatis dari selisih NRR, bukan diisi manual.</div>
+      <div class="r">/strategi.html</div>
+    </a>
+
+    <a class="card idx-card" href="bank-strategi.html">
+      <div class="n">09 · OPERATOR POLDA</div>
+      <div class="t">Bank Strategi</div>
+      <div class="d">Pustaka 13 strategi dengan tingkat keberhasilan yang dihitung dari hasil evaluasi seluruh satwil. Pencariannya berfungsi.</div>
+      <div class="r">/bank-strategi.html</div>
+    </a>
+
+    <a class="card idx-card" href="notifikasi.html">
+      <div class="n">10 · PENGAWAS</div>
+      <div class="t">Notifikasi WhatsApp</div>
+      <div class="d">Log pengiriman dengan lima status: Terkirim, Terbaca, Ditindaklanjuti, Eskalasi, dan Gagal kirim.</div>
+      <div class="r">/notifikasi.html</div>
+    </a>
+
+    <a class="card idx-card" href="notifikasi-penerima.html">
+      <div class="n">11 · OPERATOR POLRES</div>
+      <div class="t">Kelola Nomor Penerima</div>
+      <div class="d">Aturan melekat pada jabatan, nomor pada pejabat. Mutasi cukup memperbarui satu baris, dengan riwayat perubahan permanen.</div>
+      <div class="r">/notifikasi-penerima.html</div>
+    </a>
+
+    <a class="card idx-card" href="flyer.html">
+      <div class="n">12 · HUMAS</div>
+      <div class="t">Generate Flyer</div>
+      <div class="d">Hasil survei menjadi gambar siap unggah. Pilihan template, ukuran, dan elemen langsung mengubah pratinjau.</div>
+      <div class="r">/flyer.html</div>
+    </a>
+  </div>
+
+  <div class="card pad">
+    <div class="card-title">Catatan teknis prototipe</div>
+    <div style="font-size:13px;color:var(--slate-500);line-height:1.7;margin-top:10px">
+      Dibangun sebagai HTML, CSS, dan JavaScript biasa tanpa framework dan tanpa build step, agar dapat dijalankan
+      langsung dari GitHub Pages. Satu-satunya pustaka luar adalah SheetJS, dimuat dari CDN hanya pada dua halaman input
+      untuk membaca berkas Excel. Tidak ada backend, tidak ada basis data, dan tidak ada data yang dikirim ke mana pun —
+      semua perubahan hilang saat halaman dimuat ulang.
+    </div>
+    <div style="font-size:13px;color:var(--slate-500);line-height:1.7;margin-top:12px">
+      Rumus yang dipakai: <b>NRR unsur = Σ(frekuensi × bobot) ÷ n</b>, lalu <b>IKM = Σ(NRR × 1/9) × 25</b> untuk SKM
+      dan <b>IPAK = Σ(NRR × 1/4) × 25</b> untuk SPAK. Bobot skala SKM: 1→1,0 · 2→1,6 · 3→2,2 · 4→2,8 · 5→3,4 · 6→4,0.
+      Skor SPAK: Tidak ada 4 · Ragu-ragu 2 · Ada 0.
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:12px;color:var(--muted-2);margin-top:30px">
+    SIPANDU PRIMA · Prototipe antarmuka · Seluruh angka adalah data contoh
+  </div>
+
+</main>
+</body>
+</html>
